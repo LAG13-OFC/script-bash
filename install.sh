@@ -10,7 +10,8 @@ wget https://raw.githubusercontent.com/LAG13-OFC/script-bash/master/psi.sh -O "$
 # Dar permisos de ejecución al archivo
 chmod +x "$install_dir/psi.sh"
 
-# Crear un enlace simbólico para el comando "psi"
-sudo ln -sf "$install_dir/psi.sh" /usr/local/bin/psi
+# Agregar el directorio de instalación al PATH del usuario actual
+echo "export PATH=\"$PWD/$install_dir:\$PATH\"" >> ~/.bashrc
+source ~/.bashrc
 
 echo "Instalación completada. Ahora puedes usar el comando 'psi' para acceder al panel de instalación."
