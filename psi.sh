@@ -30,16 +30,17 @@ function view_active_psiphon_ports() {
     active_ports=$(sudo lsof -i -P -n | grep "$service_name" | awk -F ":" '{print $2}')
     if [[ -n $active_ports ]]; then
         echo "Puertos de Psiphon activos:"
+        echo "================================================================"
         while read -r port; do
             # Eliminar (LISTEN) y espacios en blanco
             port=$(echo "$port" | sed 's/(LISTEN)//' | tr -d '[:space:]')
             protocol=$(sudo lsof -i -P -n | awk -v port="$port" '$9 ~ port {print $1}')
             if [[ $port == $http_port ]]; then
-                echo "Puerto: $port (FRONTED-MEEK-HTTP-OSSH)"
+                echo "FRONTED-MEEK-HTTP-OSSH: $port"
             elif [[ $port == $https_port ]]; then
-                echo "Puerto: $port (FRONTED-MEEK-OSSH)"
+                echo "FRONTED-MEEK-OSSH: $port "
             else
-                echo "Puerto: $port (Protocolo desconocido)"
+                echo "Desconocido: $port"
             fi
         done <<< "$active_ports"
     fi
@@ -74,7 +75,7 @@ function uninstall_psiphon() {
 
 # Función para ver los puertos activos
 function view_active_ports() {
-    sudo netstat -tuln | awk 'NR>2 {print $4}'
+    sudo netstat -tln 
 }
 
 # Función para iniciar Psiphon
@@ -100,18 +101,20 @@ while true; do
     clear  # Limpia la pantalla
     # Mostrar puertos activos de Psiphon (opción 6)
     view_active_psiphon_ports
-    echo
-    echo "Bienvenido al panel de instalación de Psiphon.30"
-    echo "Por favor, elige una opción:"
-    echo "1. INSTALAR Psiphon"
-    echo "2. INICIAR Psiphon"
-    echo "3. DETENER Psiphon"
-    echo "4. DESINSTALAR Psiphon"
-    echo "5. Ver los puertos activos"
-    echo "6. Ver los puertos activos de Psiphon"
-    echo "7. Ver la configuración de Psiphon"
-    echo "0. Salir"
-    echo
+    echo "================================================================"
+    echo -e "\e[1m\e[32mBy |@LAG13_OFC\e[0m"
+    echo "================================================================"
+    echo "================================================================"
+    echo -e "\e[1m\e[32mBienvenido al panel de instalación de Psiphon\e[0m"
+    echo "================================================================"
+    echo -e "\e[1mPor favor, elige una opción:\e[0m"
+    echo -e "1. \e[33mINSTALAR Psiphon\e[0m"
+    echo -e "2. \e[33mINICIAR Psiphon\e[0m"
+    echo -e "3. \e[33mDETENER Psiphon\e[0m"
+    echo -e "4. \e[33mDESINSTALAR Psiphon\e[0m"
+    echo -e "5. \e[33mVer los puertos activos\e[0m"
+    echo -e "6. \e[33mVer la configuración de Psiphon\e[0m"
+    echo -e "0. \e[33mSalir\e[0m"
 
     read -p "Opción seleccionada: " option
 
@@ -148,16 +151,11 @@ while true; do
             ;;
         5)
             clear  # Limpia la pantalla
-            echo "Puertos TCP activos:"
+            echo "Todos Puertos TCP activos:"
             view_active_ports
             read -n 1 -s -r -p "Presiona ENTER para continuar."
             ;;
         6)
-            clear  # Limpia la pantalla
-            view_active_psiphon_ports
-            read -n 1 -s -r -p "Presiona ENTER para continuar."
-            ;;
-        7)
             clear  # Limpia la pantalla
             view_server_entry
             echo
