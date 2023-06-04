@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Crear el directorio de instalación
-install_dir="psiphon"
+install_dir="psi"
 mkdir -p "$install_dir"
 
 # Descargar el archivo psi.sh desde la URL

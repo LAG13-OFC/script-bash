@@ -44,6 +44,10 @@ function view_active_ports() {
     sudo netstat -tuln
 }
 
+function active_psi() {
+    nohup sudo ./psiphond run >/dev/null 2>&1 &
+}
+
 # Función para ver el contenido del archivo server-entry.dat
 function view_server_entry() {
     install_dir="psiphon"
@@ -61,10 +65,11 @@ while true; do
     echo "Bienvenido al panel de instalación y visualización de puertos."
     echo "Por favor, elige una opción:"
     echo "1. Instalar Psiphon"
-    echo "2. Desinstalar Psiphon y desactivar puertos TCP seleccionados"
-    echo "3. Ver los puertos activos"
-    echo "4. Ver el contenido del archivo server-entry.dat"
-    echo "5. Salir"
+    echo "2. Iniciar Psiphon"
+    echo "3. Desinstalar Psiphon y desactivar puertos TCP seleccionados"
+    echo "4. Ver los puertos activos"
+    echo "5. Ver el contenido del archivo server-entry.dat"
+    echo "6. Salir"
     echo
 
     read -p "Opción seleccionada: " option
@@ -79,19 +84,26 @@ while true; do
 
             install_psiphon "$http_port" "$ossh_port"
             ;;
-        2)
+        2) 
+            active_psi
+
+            echo  "Psiphon iniciado"
+            ;;
+
+
+        3)
             read -p "Ingresa el puerto para el protocolo FRONTED-MEEK-HTTP-OSSH: " http_port
             read -p "Ingresa el puerto para el protocolo FRONTED-MEEK-OSSH: " ossh_port
 
             uninstall_psiphon "$http_port" "$ossh_port"
             ;;
-        3)
+        4)
             view_active_ports
             ;;
-        4)
+        5)
             view_server_entry
             ;;
-        5)
+        6)
             echo "Saliendo del programa."
             exit
             ;;
