@@ -100,23 +100,23 @@ while true; do
     clear  # Limpia la pantalla
     # Mostrar puertos activos de Psiphon (opción 6)
     echo "================================================================"
-    echo -e "\e[1m\e[31;47m                     By |@LAG13_OFC                     \e[0m"
+    echo -e "\e[1m\e[31;1m                     By |@LAG13_OFC                     \e[0m"
     echo "================================================================"
     echo "================================================================"
-    echo -e "   \e[1m\e[33m       Bienvenido al panel de instalación de Psiphon       \e[0m"
+    echo -e "   \e[1m\e[93m       Bienvenido al panel de instalación de Psiphon       \e[0m"
     echo "================================================================"
     view_active_psiphon_ports
     echo "================================================================"
     echo -e " \e[1m\e[31m Por favor, elige una opción:\e[0m"
-    echo -e " \e[1m\e[32m[\e[1m\e[32m1\e[0m\e[1m\e[93m]\e[1m\e[93m>\e[0m \e[1m\e[37mINSTALAR Psiphon\e[0m"
-    echo -e " \e[1m\e[32m[\e[1m\e[32m2\e[0m\e[1m\e[93m]\e[1m\e[93m>\e[0m \e[1m\e[37mINICIAR Psiphon\e[0m"
-    echo -e " \e[1m\e[32m[\e[1m\e[32m3\e[0m\e[1m\e[93m]\e[1m\e[93m>\e[0m \e[1m\e[37mDETENER Psiphon\e[0m"
-    echo -e " \e[1m\e[32m[\e[1m\e[32m4\e[0m\e[1m\e[93m]\e[1m\e[93m>\e[0m \e[1m\e[37mDESINSTALAR Psiphon\e[0m"
-    echo -e " \e[1m\e[32m[\e[1m\e[32m5\e[0m\e[1m\e[93m]\e[1m\e[93m>\e[0m \e[1m\e[37mVer los puertos activos\e[0m"
-    echo -e " \e[1m\e[32m[\e[1m\e[32m6\e[0m\e[1m\e[93m]\e[1m\e[93m>\e[0m \e[1m\e[37mVer la configuración de Psiphon\e[0m"
-    echo -e " \e[1m\e[32m[\e[1m\e[32m0\e[0m\e[1m\e[93m]\e[1m\e[93m>\e[0m \e[1m\e[37mSalir\e[0m"
+    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m1\e[0m\e[1m\e[93m]\e[0m\e[1m\e[93m>\e[0m \e[1m\e[37mINSTALAR Psiphon\e[0m"
+    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m2\e[0m\e[1m\e[93m]\e[0m\e[1m\e[93m>\e[0m \e[1m\e[37mINICIAR Psiphon\e[0m"
+    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m3\e[0m\e[1m\e[93m]\e[0m\e[1m\e[93m>\e[0m \e[1m\e[37mDETENER Psiphon\e[0m"
+    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m4\e[0m\e[1m\e[93m]\e[0m\e[1m\e[93m>\e[0m \e[1m\e[37mDESINSTALAR Psiphon\e[0m"
+    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m5\e[0m\e[1m\e[93m]\e[0m\e[1m\e[93m>\e[0m \e[1m\e[37mVer los puertos activos\e[0m"
+    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m6\e[0m\e[1m\e[93m]\e[0m\e[1m\e[93m>\e[0m \e[1m\e[37mVer la configuración de Psiphon\e[0m"
+    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m0\e[0m\e[1m\e[93m]\e[0m\e[1m\e[93m>\e[0m \e[1m\e[37mSalir\e[0m"
 
-    read -p "---> \e[1m\e[31mOpción seleccionada: \e[0m" option
+    read -e "---> \e[1m\e[31mOpción seleccionada: \e[0m" option
     echo
 
 
