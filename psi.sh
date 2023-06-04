@@ -116,23 +116,15 @@ while true; do
     echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m6\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mVer la configuración de Psiphon\e[0m"
     echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m0\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mSalir\e[0m"
 
-            print_prompt() {
-        local prompt="\e[1m\e[31m--->\e[0m"
-        echo -e "$prompt"
-        }
+   
+    # Función para imprimir el prompt con el color deseado
+    print_prompt() {
+    local prompt="\e[1m\e[31m--->\e[0m \e[1m\e[93mOpción seleccionada: [0m"
+    echo -e "$prompt"
+    }
 
-        # Imprimir el prompt
-        print_prompt
-
-        # Leer la opción del usuario
-        read -p "" option
-
-        # Imprimir la opción seleccionada
-        echo "Opción seleccionada: $option"
-    echo
-
-
-
+    # Imprimir el prompt con el color deseado y leer la opción del usuario
+    print_prompt; read -p "" option
 
 
     case $option in
