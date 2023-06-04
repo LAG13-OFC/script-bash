@@ -2,8 +2,9 @@
 
 # Ruta de instalación de Psiphon
 install_dir="$HOME/psi"
-http_port=
-ossh_port=
+http_port=""
+https_port=""
+
 # Función para instalar Psiphon
 function install_psiphon() {
     # Crear directorio de instalación
@@ -17,9 +18,28 @@ function install_psiphon() {
     chmod 775 psiphond
 
     # Generar la configuración de Psiphon
-    ./psiphond --ipaddress 0.0.0.0 --protocol FRONTED-MEEK-HTTP-OSSH:"$1" --protocol FRONTED-MEEK-OSSH:"$2" generate
+    ./psiphond --ipaddress 0.0.0.0 --protocol FRONTED-MEEK-HTTP-OSSH:"$http_port" --protocol FRONTED-MEEK-OSSH:"$https_port" generate
 
     echo "Psiphon instalado correctamente en el directorio: $install_dir"
+}
+
+# Función para ver los puertos activos de Psiphon
+function view_active_psiphon_ports() {
+    service_name="psiphon"  # Nombre del servicio Psiphon
+
+    active_ports=$(sudo lsof -i -P -n | grep "$service_name" | awk -F ":" '{print $9}')
+    if [[ -n $active_ports ]]; then
+        echo "Puertos de Psiphon activos:"
+        while read -r port; do
+            if [[ $port == "$http_port" ]]; then
+                echo "Puerto: $port (HTTP)"
+            elif [[ $port == "$https_port" ]]; then
+                echo "Puerto: $port (HTTPS)"
+            else
+                echo "Puerto: $port (Protocolo desconocido)"
+            fi
+        done <<< "$active_ports"
+    fi
 }
 
 # Función para detener los servicios de Psiphon
@@ -47,28 +67,6 @@ function uninstall_psiphon() {
     echo "Psiphon desinstalado correctamente y los puertos de Psiphon han sido desactivados."
 }
 
-# Función para ver los puertos activos de Psiphon
-
-  function view_active_psiphon_ports() {
-    service_name="psiphon"  # Nombre del servicio Psiphon
-
-    active_ports=$(sudo lsof -i -P -n | grep "$service_name" | awk -F ":" '{print $2}')
-    if [[ -n $active_ports ]]; then
-        echo "Puertos de Psiphon activos:"
-        while read -r port; do
-            protocol=$(sudo lsof -i -P -n | awk -v port="$port" '$9 ~ port {print $9}')
-            if [[ $protocol == $http_port ]]; then
-                echo "Puerto: $port (HTTP)"
-            elif [[ $protocol == $ossh_port ]]; then
-                echo "Puerto: $port (HTTPS)"
-            else
-                echo "Puerto: $port (Protocolo desconocido)"
-            fi
-        done <<< "$active_ports"
-    fi
-}
-
-
 # Función para ver los puertos activos
 function view_active_ports() {
     sudo netstat -tuln | awk 'NR>2 {print $4}'
@@ -95,18 +93,18 @@ function view_server_entry() {
 # Menú principal
 while true; do
     clear  # Limpia la pantalla
-    # Mostrar puertos activos de Psiphon (opción 5)
+    # Mostrar puertos activos de Psiphon (opción 6)
     view_active_psiphon_ports
     echo
-    echo "Bienvenido al panel de instalación de Psiphon.23"
+    echo "Bienvenido al panel de instalación de Psiphon.24"
     echo "Por favor, elige una opción:"
     echo "1. INSTALAR Psiphon"
     echo "2. INICIAR Psiphon"
     echo "3. DETENER Psiphon"
-    echo "4. DESINSTALAR Script"
+    echo "4. DESINSTALAR Psiphon"
     echo "5. Ver los puertos activos"
     echo "6. Ver los puertos activos de Psiphon"
-    echo "7. Ver la config"
+    echo "7. Ver la configuración de Psiphon"
     echo "0. Salir"
     echo
 
@@ -118,10 +116,10 @@ while true; do
             read -p "Ingresa el puerto para el protocolo FRONTED-MEEK-HTTP-OSSH (8080 por defecto): " http_port
             http_port=${http_port:-8080}
 
-            read -p "Ingresa el puerto para el protocolo FRONTED-MEEK-OSSH (443 por defecto): " ossh_port
-            ossh_port=${ossh_port:-443}
+            read -p "Ingresa el puerto para el protocolo FRONTED-MEEK-OSSH (443 por defecto): " https_port
+            https_port=${https_port:-443}
 
-            install_psiphon "$http_port" "$ossh_port"
+            install_psiphon
             echo "Psiphon instalado."
             read -n 1 -s -r -p "Presiona ENTER para continuar."
             ;;
@@ -134,17 +132,15 @@ while true; do
             clear  # Limpia la pantalla
             stop_psiphon
             disable_psiphon_ports
-            echo "Pesiphon detenido."
+            echo "Psiphon detenido."
             read -n 1 -s -r -p "Presiona ENTER para continuar."
             ;;
-
-
         4)
             clear  # Limpia la pantalla
             uninstall_psiphon
             echo "Saliendo del programa."
             exit
-            ;;   
+            ;;
         5)
             clear  # Limpia la pantalla
             echo "Puertos TCP activos:"
