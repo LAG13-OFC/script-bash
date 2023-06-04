@@ -1,9 +1,12 @@
 #!/bin/bash
 
+# Ruta de instalación de Psiphon
+install_dir="$HOME/psi"
+
 # Función para instalar Psiphon
 function install_psiphon() {
     # Crear directorio de instalación
-    install_dir="psi"
+    mkdir -p "$install_dir"
     cd "$install_dir" || exit 1
 
     # Descargar el archivo Psiphon
@@ -15,15 +18,14 @@ function install_psiphon() {
     # Generar la configuración de Psiphon
     ./psiphond --ipaddress 0.0.0.0 --protocol FRONTED-MEEK-HTTP-OSSH:"$1" --protocol FRONTED-MEEK-OSSH:"$2" generate
 
-    echo "Psiphon instalado correctamente en el directorio: $PWD"
+    echo "Psiphon instalado correctamente en el directorio: $install_dir"
 }
 
 # Función para desinstalar Psiphon y desactivar los puertos TCP seleccionados
 function uninstall_psiphon() {
-    install_dir="psi"
     http_port="$1"
     ossh_port="$2"
-    
+
     # Detener y eliminar cualquier proceso de Psiphon en ejecución
     sudo pkill -f psiphond
     sudo pkill -f psiphon-tunnel-core
@@ -43,14 +45,15 @@ function view_active_ports() {
     sudo netstat -tuln | awk 'NR>2 {print $4}'
 }
 
-function active_psi() {
-    cd /psi
+# Función para iniciar Psiphon
+function start_psiphon() {
+    cd "$install_dir" || exit 1
     nohup sudo ./psiphond run >/dev/null 2>&1 &
+    echo "Psiphon iniciado."
 }
 
 # Función para ver el contenido del archivo server-entry.dat
 function view_server_entry() {
-    install_dir="psi"
     server_entry_file="$install_dir/server-entry.dat"
 
     if [ -f "$server_entry_file" ]; then
@@ -64,7 +67,7 @@ function view_server_entry() {
 while true; do
     clear  # Limpia la pantalla
 
-    echo "Bienvenido al panel de instalación de PSIPHON."
+    echo "Bienvenido al panel de instalación de Psiphon."
     echo "Por favor, elige una opción:"
     echo "1. Instalar Psiphon"
     echo "2. Iniciar Psiphon"
@@ -78,7 +81,7 @@ while true; do
 
     case $option in
         1)
-             clear  # Limpia la pantalla
+            clear  # Limpia la pantalla
             read -p "Ingresa el puerto para el protocolo FRONTED-MEEK-HTTP-OSSH (8080 por defecto): " http_port
             http_port=${http_port:-8080}
 
@@ -86,15 +89,13 @@ while true; do
             ossh_port=${ossh_port:-443}
 
             install_psiphon "$http_port" "$ossh_port"
-            echo "Psiphon INSTALADO"
-            read -n 1 -s -r -p "ENTER PARA VOLVER"
+            echo "Psiphon instalado."
+            read -n 1 -s -r -p "Presiona ENTER para continuar."
             ;;
-        2) 
+        2)
             clear  # Limpia la pantalla
-            active_psi
-
-            echo "Psiphon iniciado"
-            read -n 1 -s -r -p "ENTER PARA VOLVER"
+            start_psiphon
+            read -n 1 -s -r -p "Presiona ENTER para continuar."
             ;;
         3)
             clear  # Limpia la pantalla
@@ -102,18 +103,18 @@ while true; do
             read -p "Ingresa el puerto para el protocolo FRONTED-MEEK-OSSH: " ossh_port
 
             uninstall_psiphon "$http_port" "$ossh_port"
-            read -n 1 -s -r -p "ENTER PARA VOLVER"
+            read -n 1 -s -r -p "Presiona ENTER para continuar."
             ;;
         4)
             clear  # Limpia la pantalla
             echo "Puertos TCP activos:"
             view_active_ports
-            read -n 1 -s -r -p "ENTER PARA VOLVER"      
+            read -n 1 -s -r -p "Presiona ENTER para continuar."
             ;;
         5)
             clear  # Limpia la pantalla
             view_server_entry
-            read -n 1 -s -r -p "ENTER PARA VOLVER"
+            read -n 1 -s -r -p "Presiona ENTER para continuar."
             ;;
         6)
             echo "Saliendo del programa."
@@ -121,7 +122,7 @@ while true; do
             ;;
         *)
             echo "Opción inválida. Por favor, elige una opción válida."
-            read -n 1 -s -r -p "ENTER PARA VOLVER"
+            read -n 1 -s -r -p "Presiona ENTER para continuar."
             ;;
     esac
 done
