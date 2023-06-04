@@ -35,15 +35,14 @@ function view_active_psiphon_ports() {
             port=$(echo "$port" | sed 's/(LISTEN)//' | tr -d '[:space:]')
             protocol=$(sudo lsof -i -P -n | awk -v port="$port" '$9 ~ port {print $1}')
             if [[ $port == $http_port ]]; then
-                echo "Puerto: $port (HTTP)"
+                echo "Puerto: $port (FRONTED-MEEK-HTTP-OSSH)"
             elif [[ $port == $https_port ]]; then
-                echo "Puerto: $port (HTTPS)"
+                echo "Puerto: $port (FRONTED-MEEK-OSSH)"
             else
                 echo "Puerto: $port (Protocolo desconocido)"
             fi
         done <<< "$active_ports"
     fi
-     echo "Puerto: $http_port y $https_port"
 }
 
 # Función para detener los servicios de Psiphon
@@ -54,9 +53,11 @@ function stop_psiphon() {
 
 # Función para desactivar los puertos activos de Psiphon
 function disable_psiphon_ports() {
-    active_ports=$(sudo netstat -tuln | awk 'NR>2 {print $4}' | grep -E '8080|443' | grep "$install_dir" | awk -F ":" '{print $NF}')
+    active_ports=$(sudo netstat -tuln | awk 'NR>2 {print $4}' | awk -F ":" '{print $NF}')
     for port in $active_ports; do
-        sudo ufw deny "$port"
+        if [[ $port == $http_port ]] || [[ $port == $https_port ]]; then
+            sudo ufw deny "$port"
+        fi
     done
 }
 
@@ -100,7 +101,7 @@ while true; do
     # Mostrar puertos activos de Psiphon (opción 6)
     view_active_psiphon_ports
     echo
-    echo "Bienvenido al panel de instalación de Psiphon.29"
+    echo "Bienvenido al panel de instalación de Psiphon.30"
     echo "Por favor, elige una opción:"
     echo "1. INSTALAR Psiphon"
     echo "2. INICIAR Psiphon"
