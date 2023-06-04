@@ -119,12 +119,13 @@ while true; do
    
     # Función para imprimir el prompt con el color deseado
     print_prompt() {
-    local prompt="\e[1m\e[31m--->\e[0m \e[1m\e[93mOpción seleccionada: [0m"
-    echo -e "$prompt"
+    local prompt="\e[1m\e[31m--->\e[0m \e[1m\e[93mOpción seleccionada: \e[0m"
+    echo -ne "$prompt"
     }
 
     # Imprimir el prompt con el color deseado y leer la opción del usuario
-    print_prompt; read -p "" option
+    print_prompt; read option
+
 
 
     case $option in
