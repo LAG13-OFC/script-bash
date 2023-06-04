@@ -48,7 +48,7 @@ function uninstall_psiphon() {
 
 # Función para ver los puertos activos de Psiphon
 function view_active_psiphon_ports() {
-    active_ports=$(sudo netstat -tuln | awk 'NR>2 {print $4}' | grep "$install_dir" | awk -F ":" '{print $NF}')
+    active_ports=$(sudo netstat -tuln | awk 'NR>2 {print $4}' | grep "$install_dir" | awk -F "Puerto PSI:" '{print $NF}')
     if [[ -n $active_ports ]]; then
         echo "Puertos de Psiphon activos:"
         echo "$active_ports"
@@ -86,13 +86,14 @@ while true; do
     echo
     echo "Bienvenido al panel de instalación de Psiphon."
     echo "Por favor, elige una opción:"
-    echo "1. Instalar Psiphon"
-    echo "2. Iniciar Psiphon"
-    echo "3. Desinstalar Psiphon y desactivar los puertos de Psiphon"
-    echo "4. Ver los puertos activos"
-    echo "5. Ver los puertos activos de Psiphon"
-    echo "6. Ver el contenido del archivo server-entry.dat"
-    echo "7. Salir"
+    echo "1. INSTALAR Psiphon"
+    echo "2. INICIAR Psiphon"
+    echo "3. DETENER Psiphon"
+    echo "4. DESINSTALAR Script"
+    echo "5. Ver los puertos activos"
+    echo "6. Ver los puertos activos de Psiphon"
+    echo "7. Ver la config"
+    echo "0. Salir"
     echo
 
     read -p "Opción seleccionada: " option
@@ -117,28 +118,37 @@ while true; do
             ;;
         3)
             clear  # Limpia la pantalla
-            uninstall_psiphon
+            stop_psiphon
+            disable_psiphon_ports
             echo "Pesiphon detenido."
             read -n 1 -s -r -p "Presiona ENTER para continuar."
             ;;
+
+
         4)
+
+            uninstall_psiphon
+            echo "Saliendo del programa."
+            exit
+            ;;   
+        5)
             clear  # Limpia la pantalla
             echo "Puertos TCP activos:"
             view_active_ports
             read -n 1 -s -r -p "Presiona ENTER para continuar."
             ;;
-        5)
+        6)
             clear  # Limpia la pantalla
             view_active_psiphon_ports
             read -n 1 -s -r -p "Presiona ENTER para continuar."
             ;;
-        6)
+        7)
             clear  # Limpia la pantalla
             view_server_entry
             echo
             read -n 1 -s -r -p "Presiona ENTER para continuar."
             ;;
-        7)
+        0)
             echo "Saliendo del programa."
             exit
             ;;
