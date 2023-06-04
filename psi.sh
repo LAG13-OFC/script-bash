@@ -64,21 +64,21 @@ function view_server_entry() {
 while true; do
     clear  # Limpia la pantalla
 
-    echo "Bienvenido al panel de instalación y visualización de puertos."
+    echo "Bienvenido al panel de instalación de PSIPHON."
     echo "Por favor, elige una opción:"
     echo "1. Instalar Psiphon"
     echo "2. Iniciar Psiphon"
     echo "3. Desinstalar Psiphon y desactivar puertos TCP seleccionados"
     echo "4. Ver los puertos activos"
     echo "5. Ver el contenido del archivo server-entry.dat"
-    echo "6. Volver al menú anterior"
-    echo "7. Salir"
+    echo "6. Salir"
     echo
 
     read -p "Opción seleccionada: " option
 
     case $option in
         1)
+             clear  # Limpia la pantalla
             read -p "Ingresa el puerto para el protocolo FRONTED-MEEK-HTTP-OSSH (8080 por defecto): " http_port
             http_port=${http_port:-8080}
 
@@ -88,37 +88,38 @@ while true; do
             install_psiphon "$http_port" "$ossh_port"
             ;;
         2) 
+            clear  # Limpia la pantalla
             active_psi
 
             echo "Psiphon iniciado"
-            read -n 1 -s -r -p "Presiona cualquier tecla para continuar..."
+            read -n 1 -s -r -p "ENTER PARA VOLVER"
             ;;
         3)
+            clear  # Limpia la pantalla
             read -p "Ingresa el puerto para el protocolo FRONTED-MEEK-HTTP-OSSH: " http_port
             read -p "Ingresa el puerto para el protocolo FRONTED-MEEK-OSSH: " ossh_port
 
             uninstall_psiphon "$http_port" "$ossh_port"
-            read -n 1 -s -r -p "Presiona cualquier tecla para continuar..."
+            read -n 1 -s -r -p "ENTER PARA VOLVER"
             ;;
         4)
+            clear  # Limpia la pantalla
             echo "Puertos TCP activos:"
             view_active_ports
-            read -n 1 -s -r -p "Presiona cualquier tecla para continuar..."
+            read -n 1 -s -r -p "ENTER PARA VOLVER"      
             ;;
         5)
+            clear  # Limpia la pantalla
             view_server_entry
-            read -n 1 -s -r -p "Presiona cualquier tecla para continuar..."
+            read -n 1 -s -r -p "ENTER PARA VOLVER"
             ;;
         6)
-            break  # Sale del bucle y vuelve al menú anterior
-            ;;
-        7)
             echo "Saliendo del programa."
             exit
             ;;
         *)
             echo "Opción inválida. Por favor, elige una opción válida."
-            read -n 1 -s -r -p "Presiona cualquier tecla para continuar..."
+            read -n 1 -s -r -p "ENTER PARA VOLVER"
             ;;
     esac
 done
