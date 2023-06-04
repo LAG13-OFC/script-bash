@@ -49,7 +49,7 @@ function uninstall_psiphon() {
 # Función para ver los puertos activos de Psiphon
 function view_active_psiphon_ports() {
    
-    active_ports=$(sudo netstat -tuln | awk -v install_dir="$install_dir" 'NR>2 && $4 ~ install_dir {split($4, arr, ":"); print arr[length(arr)]}')
+    active_ports=$(sudo netstat -tuln | awk -v install_dir="$install_dir/psiphond" 'NR>2 && $4 ~ install_dir {split($4, arr, ":"); print arr[length(arr)]}')
     if [[ -n $active_ports ]]; then
         echo "Puertos de Psiphon activos:"
         echo "$active_ports"
