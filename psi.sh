@@ -27,17 +27,16 @@ function install_psiphon() {
 function view_active_psiphon_ports() {
     service_name="psiphon"  # Nombre del servicio Psiphon
 
-    active_ports=$(sudo lsof -i -P -n | grep "$service_name" | awk -F ":" '{print $2}')
+    active_ports=$(sudo lsof -i -P -n | grep "$service_name" | awk -F ":" '{print $9}')
     if [[ -n $active_ports ]]; then
         echo "Puertos de Psiphon activos:"
         while read -r port; do
-            protocol=$(sudo lsof -i -P -n | awk -v port="$port" '$9 ~ port {print $9}')
-            if [[ $protocol == *"$http_port"* ]]; then
-                echo "Puerto: ${port%\(LISTEN\)} (HTTP)"
-            elif [[ $protocol == *"$https_port"* ]]; then
-                echo "Puerto: ${port%\(LISTEN\)} (HTTPS)"
+            if [[ $port == "$http_port" ]]; then
+                echo "Puerto HTTP activo: $port"
+            elif [[ $port == "$https_port" ]]; then
+                echo "Puerto HTTPS activo: $port"
             else
-                echo "Puerto: ${port%\(LISTEN\)} (Protocolo desconocido)"
+                echo "Puerto desconocido activo: $port"
             fi
         done <<< "$active_ports"
     fi
@@ -97,7 +96,7 @@ while true; do
     # Mostrar puertos activos de Psiphon (opción 6)
     view_active_psiphon_ports
     echo
-    echo "Bienvenido al panel de instalación de Psiphon.25"
+    echo "Bienvenido al panel de instalación de Psiphon.26"
     echo "Por favor, elige una opción:"
     echo "1. INSTALAR Psiphon"
     echo "2. INICIAR Psiphon"
