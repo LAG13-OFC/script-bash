@@ -25,7 +25,7 @@ function install_psiphon() {
 function uninstall_psiphon() {
     http_port="$1"
     ossh_port="$2"
-
+    cd
     # Detener y eliminar cualquier proceso de Psiphon en ejecución
     sudo pkill -f psiphond
     sudo pkill -f psiphon-tunnel-core
@@ -38,6 +38,14 @@ function uninstall_psiphon() {
     sudo ufw deny "$ossh_port"
 
     echo "Psiphon desinstalado correctamente y los puertos TCP $http_port y $ossh_port han sido desactivados."
+}
+
+# Función para ver los puertos activos de Psiphon
+function view_active_psiphon_ports() {
+    active_ports=$(sudo netstat -tuln | awk 'NR>2 {print $4}' | grep -oP '(?<=:)\d+$')
+    if [[ -n $active_ports ]]; then
+        echo "Puertos de Psiphon activos: $active_ports"
+    fi
 }
 
 # Función para ver los puertos activos
@@ -73,9 +81,13 @@ while true; do
     echo "2. Iniciar Psiphon"
     echo "3. Desinstalar Psiphon y desactivar puertos TCP seleccionados"
     echo "4. Ver los puertos activos"
-    echo "5. Ver el contenido del archivo server-entry.dat"
-    echo "6. Salir"
+    echo "5. Ver los puertos activos de Psiphon"
+    echo "6. Ver el contenido del archivo server-entry.dat"
+    echo "7. Salir"
     echo
+
+    # Mostrar puertos activos de Psiphon (opción 5)
+    view_active_psiphon_ports
 
     read -p "Opción seleccionada: " option
 
@@ -113,10 +125,15 @@ while true; do
             ;;
         5)
             clear  # Limpia la pantalla
-            view_server_entry
+            view_active_psiphon_ports
             read -n 1 -s -r -p "Presiona ENTER para continuar."
             ;;
         6)
+            clear  # Limpia la pantalla
+            view_server_entry
+            read -n 1 -s -r -p "Presiona ENTER para continuar."
+            ;;
+        7)
             echo "Saliendo del programa."
             exit
             ;;
