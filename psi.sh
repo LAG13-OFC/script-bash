@@ -38,9 +38,11 @@ function view_active_psiphon_ports() {
                 echo "Puerto: $port (HTTPS)"
             else
                 echo "Puerto: $port (Protocolo desconocido)"
+               
             fi
         done <<< "$active_ports"
     fi
+     echo "Puerto: $http_port y $https_port"
 }
 
 # Función para detener los servicios de Psiphon
@@ -97,7 +99,7 @@ while true; do
     # Mostrar puertos activos de Psiphon (opción 6)
     view_active_psiphon_ports
     echo
-    echo "Bienvenido al panel de instalación de Psiphon.27"
+    echo "Bienvenido al panel de instalación de Psiphon.28"
     echo "Por favor, elige una opción:"
     echo "1. INSTALAR Psiphon"
     echo "2. INICIAR Psiphon"
