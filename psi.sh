@@ -99,25 +99,26 @@ function view_server_entry() {
 while true; do
     clear  # Limpia la pantalla
     # Mostrar puertos activos de Psiphon (opción 6)
-     echo "================================================================"
-    echo -e "\e[1m\e[31;7m      By |@LAG13_OFC\e[0m"
+    echo "================================================================"
+    echo -e "        \e[1m\e[31;7mBy |@LAG13_OFC\e[0m"
     echo "================================================================"
     echo "================================================================"
-    echo -e "\e[1m\e[33m Bienvenido al panel de instalación de Psiphon\e[0m"
+    echo -e "   \e[1m\e[33m Bienvenido al panel de instalación de Psiphon\e[0m"
     echo "================================================================"
     view_active_psiphon_ports
     echo "================================================================"
-    echo -e "\e[1m Por favor, elige una opción:\e[0m"
-    echo -e " \e[36m[1]. \e[1m\e[33mINSTALAR Psiphon\e[0m"
-    echo -e " \e[36m[2]. \e[1m\e[33mINICIAR Psiphon\e[0m"
-    echo -e " \e[36m[3]. \e[1m\e[33mDETENER Psiphon\e[0m"
-    echo -e " \e[36m[4]. \e[1m\e[33mDESINSTALAR Psiphon\e[0m"
-    echo -e " \e[36m[5]. \e[1m\e[33mVer los puertos activos\e[0m"
-    echo -e " \e[36m[6]. \e[1m\e[33mVer la configuración de Psiphon\e[0m"
-    echo -e " \e[36m[0]. \e[1m\e[33mSalir\e[0m"
+    echo -e " \e[1m Por favor, elige una opción:\e[0m"
+    echo -e " \e[32m[\e[1m\e[33m1\e[0m\e[32m]\e[31m>\e[0m \e[1m\e[37mINSTALAR Psiphon\e[0m"
+    echo -e " \e[32m[\e[1m\e[33m2\e[0m\e[32m]\e[31m>\e[0m \e[1m\e[37mINICIAR Psiphon\e[0m"
+    echo -e " \e[32m[\e[1m\e[33m3\e[0m\e[32m]\e[31m>\e[0m \e[1m\e[37mDETENER Psiphon\e[0m"
+    echo -e " \e[32m[\e[1m\e[33m4\e[0m\e[32m]\e[31m>\e[0m \e[1m\e[37mDESINSTALAR Psiphon\e[0m"
+    echo -e " \e[32m[\e[1m\e[33m5\e[0m\e[32m]\e[31m>\e[0m \e[1m\e[37mVer los puertos activos\e[0m"
+    echo -e " \e[32m[\e[1m\e[33m6\e[0m\e[32m]\e[31m>\e[0m \e[1m\e[37mVer la configuración de Psiphon\e[0m"
+    echo -e " \e[32m[\e[1m\e[33m0\e[0m\e[32m]\e[31m>\e[0m \e[1m\e[37mSalir\e[0m"
 
-    read -p "---> Opción seleccionada: " -n 1 -r option
+    read -p "---> Opción seleccionada: " option
     echo
+
 
 
     case $option in
