@@ -1,5 +1,5 @@
 #!/bin/bash
-
+sudo su root 
 # Ruta de instalación de Psiphon
 install_dir="$HOME/psi"
 http_port=""
@@ -29,18 +29,18 @@ function view_active_psiphon_ports() {
 
     active_ports=$(sudo lsof -i -P -n | grep "$service_name" | awk -F ":" '{print $2}')
     if [[ -n $active_ports ]]; then
-        echo "Puertos de Psiphon activos:"
-        echo "================================================================"
+        echo "             Puertos de Psiphon activos:"
+      echo "================================================================"
         while read -r port; do
             # Eliminar (LISTEN) y espacios en blanco
             port=$(echo "$port" | sed 's/(LISTEN)//' | tr -d '[:space:]')
             protocol=$(sudo lsof -i -P -n | awk -v port="$port" '$9 ~ port {print $1}')
             if [[ $port == $http_port ]]; then
-                echo "FRONTED-MEEK-HTTP-OSSH: $port"
+                echo " FRONTED-MEEK-HTTP-OSSH: $port"
             elif [[ $port == $https_port ]]; then
-                echo "FRONTED-MEEK-OSSH: $port "
+                echo " FRONTED-MEEK-OSSH: $port "
             else
-                echo "Desconocido: $port"
+                echo " Desconocido: $port"
             fi
         done <<< "$active_ports"
     fi
@@ -100,24 +100,26 @@ function view_server_entry() {
 while true; do
     clear  # Limpia la pantalla
     # Mostrar puertos activos de Psiphon (opción 6)
+   echo "================================================================"
+    echo -e "\e[1m\e[31;7m      By |@LAG13_OFC\e[0m"
     echo "================================================================"
-    echo -e "\e[1m\e[32mBy |@LAG13_OFC\e[0m"
     echo "================================================================"
-    echo "================================================================"
-    echo -e "\e[1m\e[32mBienvenido al panel de instalación de Psiphon\e[0m"
+    echo -e "\e[1m\e[33m Bienvenido al panel de instalación de Psiphon\e[0m"
     echo "================================================================"
     view_active_psiphon_ports
     echo "================================================================"
-    echo -e "\e[1mPor favor, elige una opción:\e[0m"
-    echo -e "1. \e[33mINSTALAR Psiphon\e[0m"
-    echo -e "2. \e[33mINICIAR Psiphon\e[0m"
-    echo -e "3. \e[33mDETENER Psiphon\e[0m"
-    echo -e "4. \e[33mDESINSTALAR Psiphon\e[0m"
-    echo -e "5. \e[33mVer los puertos activos\e[0m"
-    echo -e "6. \e[33mVer la configuración de Psiphon\e[0m"
-    echo -e "0. \e[33mSalir\e[0m"
+    echo -e "\e[1m Por favor, elige una opción:\e[0m"
+    echo -e " \e[36m[1]. \e[1m\e[33mINSTALAR Psiphon\e[0m"
+    echo -e " \e[36m[2]. \e[1m\e[33mINICIAR Psiphon\e[0m"
+    echo -e " \e[36m[3]. \e[1m\e[33mDETENER Psiphon\e[0m"
+    echo -e " \e[36m[4]. \e[1m\e[33mDESINSTALAR Psiphon\e[0m"
+    echo -e " \e[36m[5]. \e[1m\e[33mVer los puertos activos\e[0m"
+    echo -e " \e[36m[6]. \e[1m\e[33mVer la configuración de Psiphon\e[0m"
+    echo -e " \e[36m[0]. \e[1m\e[33mSalir\e[0m"
 
-    read -p "Opción seleccionada: " option
+    read -p "---> Opción seleccionada: " -n 1 -r option
+    echo
+
 
     case $option in
         1)
