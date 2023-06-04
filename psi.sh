@@ -100,12 +100,13 @@ function view_server_entry() {
 while true; do
     clear  # Limpia la pantalla
     # Mostrar puertos activos de Psiphon (opción 6)
-    view_active_psiphon_ports
     echo "================================================================"
     echo -e "\e[1m\e[32mBy |@LAG13_OFC\e[0m"
     echo "================================================================"
     echo "================================================================"
     echo -e "\e[1m\e[32mBienvenido al panel de instalación de Psiphon\e[0m"
+    echo "================================================================"
+    view_active_psiphon_ports
     echo "================================================================"
     echo -e "\e[1mPor favor, elige una opción:\e[0m"
     echo -e "1. \e[33mINSTALAR Psiphon\e[0m"
