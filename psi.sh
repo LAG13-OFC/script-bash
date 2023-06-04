@@ -108,15 +108,27 @@ while true; do
     view_active_psiphon_ports
     echo "================================================================"
     echo -e " \e[1m\e[31m Por favor, elige una opción:\e[0m"
-    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m1\e[0m\e[1m\e[93m]\e[0m\e[1m\e[93m>\e[0m \e[1m\e[37mINSTALAR Psiphon\e[0m"
-    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m2\e[0m\e[1m\e[93m]\e[0m\e[1m\e[93m>\e[0m \e[1m\e[37mINICIAR Psiphon\e[0m"
-    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m3\e[0m\e[1m\e[93m]\e[0m\e[1m\e[93m>\e[0m \e[1m\e[37mDETENER Psiphon\e[0m"
-    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m4\e[0m\e[1m\e[93m]\e[0m\e[1m\e[93m>\e[0m \e[1m\e[37mDESINSTALAR Psiphon\e[0m"
-    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m5\e[0m\e[1m\e[93m]\e[0m\e[1m\e[93m>\e[0m \e[1m\e[37mVer los puertos activos\e[0m"
-    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m6\e[0m\e[1m\e[93m]\e[0m\e[1m\e[93m>\e[0m \e[1m\e[37mVer la configuración de Psiphon\e[0m"
-    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m0\e[0m\e[1m\e[93m]\e[0m\e[1m\e[93m>\e[0m \e[1m\e[37mSalir\e[0m"
+    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m1\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mINSTALAR Psiphon\e[0m"
+    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m2\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mINICIAR Psiphon\e[0m"
+    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m3\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mDETENER Psiphon\e[0m"
+    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m4\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mDESINSTALAR Psiphon\e[0m"
+    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m5\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mVer los puertos activos\e[0m"
+    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m6\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mVer la configuración de Psiphon\e[0m"
+    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m0\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mSalir\e[0m"
 
-    read -e "---> \e[1m\e[31mOpción seleccionada: \e[0m" option
+            print_prompt() {
+        local prompt="\e[1m\e[31m--->\e[0m"
+        echo -e "$prompt"
+        }
+
+        # Imprimir el prompt
+        print_prompt
+
+        # Leer la opción del usuario
+        read -p "" option
+
+        # Imprimir la opción seleccionada
+        echo "Opción seleccionada: $option"
     echo
 
 
