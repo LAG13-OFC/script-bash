@@ -41,7 +41,7 @@ function uninstall_psiphon() {
 }
 
 # Función para ver los puertos activos de Psiphon
-function view_active_ports() {
+function view_active_psiphon_ports() {
     active_ports=$(sudo netstat -tuln | awk 'NR>2 {print $4}' | grep -E '8080|443')
     if [[ -n $active_ports ]]; then
         echo "Puertos de Psiphon activos:"
