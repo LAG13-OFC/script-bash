@@ -2,7 +2,8 @@
 
 # Ruta de instalación de Psiphon
 install_dir="$HOME/psi"
-
+http_port=
+ossh_port=
 # Función para instalar Psiphon
 function install_psiphon() {
     # Crear directorio de instalación
@@ -47,25 +48,26 @@ function uninstall_psiphon() {
 }
 
 # Función para ver los puertos activos de Psiphon
-function view_active_psiphon_ports() {
-     service_name="psiphon"  # Nombre del servicio Psiphon
 
-    active_ports=$(sudo lsof -i -P -n | grep LISTEN | grep "$service_name" | awk '{print $9}')
+  function view_active_psiphon_ports() {
+    service_name="psiphon"  # Nombre del servicio Psiphon
+
+    active_ports=$(sudo lsof -i -P -n | grep "$service_name" | awk -F ":" '{print $2}')
     if [[ -n $active_ports ]]; then
         echo "Puertos de Psiphon activos:"
         while read -r port; do
-            port_number=$(echo "$port" | awk -F ":" '{print $2}')
-            if echo "$port" | grep -q "http-alt"; then
-                protocol="HTTP"
-            elif echo "$port" | grep -q "https"; then
-                protocol="HTTPS"
+            protocol=$(sudo lsof -i -P -n | awk -v port="$port" '$9 ~ port {print $9}')
+            if [[ $protocol == $http_port ]]; then
+                echo "Puerto: $port (HTTP)"
+            elif [[ $protocol == $ossh_port ]]; then
+                echo "Puerto: $port (HTTPS)"
             else
-                protocol="Protocolo desconocido"
+                echo "Puerto: $port (Protocolo desconocido)"
             fi
-            echo "Puerto: $port_number ($protocol)"
         done <<< "$active_ports"
     fi
 }
+
 
 # Función para ver los puertos activos
 function view_active_ports() {
@@ -96,7 +98,7 @@ while true; do
     # Mostrar puertos activos de Psiphon (opción 5)
     view_active_psiphon_ports
     echo
-    echo "Bienvenido al panel de instalación de Psiphon.21"
+    echo "Bienvenido al panel de instalación de Psiphon.23"
     echo "Por favor, elige una opción:"
     echo "1. INSTALAR Psiphon"
     echo "2. INICIAR Psiphon"
