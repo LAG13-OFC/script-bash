@@ -48,9 +48,9 @@ function uninstall_psiphon() {
 
 # Función para ver los puertos activos de Psiphon
 function view_active_psiphon_ports() {
-      service_name="psiphond"  # Nombre del servicio Psiphon
+      service_name="psiphon"  # Nombre del servicio Psiphon
 
-    active_ports=$(sudo lsof -i -P -n | grep "$service_name" | awk -F ":" '{print $9}')
+    active_ports=$(sudo lsof -i -P -n | grep "$service_name" | awk -F ":" '{print $2}')
     if [[ -n $active_ports ]]; then
         echo "Puertos de Psiphon activos:"
         echo "$active_ports"
@@ -86,7 +86,7 @@ while true; do
     # Mostrar puertos activos de Psiphon (opción 5)
     view_active_psiphon_ports
     echo
-    echo "Bienvenido al panel de instalación de Psiphon."
+    echo "Bienvenido al panel de instalación de Psiphon.16"
     echo "Por favor, elige una opción:"
     echo "1. INSTALAR Psiphon"
     echo "2. INICIAR Psiphon"
