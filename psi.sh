@@ -3,8 +3,7 @@
 # Función para instalar Psiphon
 function install_psiphon() {
     # Crear directorio de instalación
-    install_dir="psiphon"
-    mkdir -p "$install_dir"
+    install_dir="psi"
     cd "$install_dir" || exit 1
 
     # Descargar el archivo Psiphon
@@ -21,7 +20,7 @@ function install_psiphon() {
 
 # Función para desinstalar Psiphon y desactivar los puertos TCP seleccionados
 function uninstall_psiphon() {
-    install_dir="psiphon"
+    install_dir="psi"
     http_port="$1"
     ossh_port="$2"
     
@@ -45,12 +44,13 @@ function view_active_ports() {
 }
 
 function active_psi() {
+    cd /psi
     nohup sudo ./psiphond run >/dev/null 2>&1 &
 }
 
 # Función para ver el contenido del archivo server-entry.dat
 function view_server_entry() {
-    install_dir="psiphon"
+    install_dir="psi"
     server_entry_file="$install_dir/server-entry.dat"
 
     if [ -f "$server_entry_file" ]; then
@@ -86,6 +86,8 @@ while true; do
             ossh_port=${ossh_port:-443}
 
             install_psiphon "$http_port" "$ossh_port"
+            echo "Psiphon INSTALADO"
+            read -n 1 -s -r -p "ENTER PARA VOLVER"
             ;;
         2) 
             clear  # Limpia la pantalla
