@@ -1,5 +1,4 @@
 #!/bin/bash
-sudo su root 
 # Ruta de instalación de Psiphon
 install_dir="$HOME/psi"
 http_port=""
@@ -100,7 +99,7 @@ function view_server_entry() {
 while true; do
     clear  # Limpia la pantalla
     # Mostrar puertos activos de Psiphon (opción 6)
-   echo "================================================================"
+     echo "================================================================"
     echo -e "\e[1m\e[31;7m      By |@LAG13_OFC\e[0m"
     echo "================================================================"
     echo "================================================================"
