@@ -41,7 +41,7 @@ function uninstall_psiphon() {
 
 # Función para ver los puertos activos
 function view_active_ports() {
-    sudo netstat -tuln
+    sudo netstat -tuln | awk 'NR>2 {print $4}'
 }
 
 function active_psi() {
@@ -62,6 +62,8 @@ function view_server_entry() {
 
 # Menú principal
 while true; do
+    clear  # Limpia la pantalla
+
     echo "Bienvenido al panel de instalación y visualización de puertos."
     echo "Por favor, elige una opción:"
     echo "1. Instalar Psiphon"
@@ -69,7 +71,8 @@ while true; do
     echo "3. Desinstalar Psiphon y desactivar puertos TCP seleccionados"
     echo "4. Ver los puertos activos"
     echo "5. Ver el contenido del archivo server-entry.dat"
-    echo "6. Salir"
+    echo "6. Volver al menú anterior"
+    echo "7. Salir"
     echo
 
     read -p "Opción seleccionada: " option
@@ -87,30 +90,35 @@ while true; do
         2) 
             active_psi
 
-            echo  "Psiphon iniciado"
+            echo "Psiphon iniciado"
+            read -n 1 -s -r -p "Presiona cualquier tecla para continuar..."
             ;;
-
-
         3)
             read -p "Ingresa el puerto para el protocolo FRONTED-MEEK-HTTP-OSSH: " http_port
             read -p "Ingresa el puerto para el protocolo FRONTED-MEEK-OSSH: " ossh_port
 
             uninstall_psiphon "$http_port" "$ossh_port"
+            read -n 1 -s -r -p "Presiona cualquier tecla para continuar..."
             ;;
         4)
+            echo "Puertos TCP activos:"
             view_active_ports
+            read -n 1 -s -r -p "Presiona cualquier tecla para continuar..."
             ;;
         5)
             view_server_entry
+            read -n 1 -s -r -p "Presiona cualquier tecla para continuar..."
             ;;
         6)
+            break  # Sale del bucle y vuelve al menú anterior
+            ;;
+        7)
             echo "Saliendo del programa."
             exit
             ;;
         *)
             echo "Opción inválida. Por favor, elige una opción válida."
+            read -n 1 -s -r -p "Presiona cualquier tecla para continuar..."
             ;;
     esac
-
-    echo
 done
