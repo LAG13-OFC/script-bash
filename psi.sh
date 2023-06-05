@@ -23,19 +23,23 @@ function install_psiphon() {
 }
 
 # Función para decodificar el archivo en formato hexadecimal y procesar el archivo JSON
+# Función para decodificar el archivo en formato hexadecimal y procesar el archivo JSON
 function decodificar_archivo() {
     local archivo_entrada="$install_dir/server-entry.dat"
+    local archivo_intermedio="$install_dir/server-entry-intermediate.json"
     local archivo_salida="$install_dir/server-entry.json"
-     local archivo_salida1="$install_dir/server-entry-new.json"
 
     # Decodificar el archivo .dat utilizando xxd
-    xxd -r -p "$archivo_entrada" > "$archivo_salida"
+    xxd -r -p "$archivo_entrada" > "$archivo_intermedio"
 
     # Procesar el archivo JSON utilizando jq, grep y sed
-    jq -S -c '.' "$archivo_salida" | grep -v '^0$' | sed 's/,/,\'$'\n/g' > "$archivo_salida1"
+    jq -S -c '.' "$archivo_intermedio" | grep -v '^0$' | sed 's/,/,\'$'\n/g' > "$archivo_salida"
 
     echo "Archivo decodificado exitosamente a: $archivo_salida"
+    echo "Contenido en formato hexadecimal:"
+    cat -v "$archivo_intermedio"
 }
+
 
 
 
@@ -131,20 +135,7 @@ function uninstall_psiphon() {
 # Función para ver los puertos activos
 function view_active_ports() {
     sudo netstat -tln 
-}
-# Función para decodificar el archivo en formato hexadecimal y mostrarlo en formato hexadecimal
-function decodificar_archivo1() {
-    local archivo_entrada="$install_dir/server-entry.dat"
-    local archivo_salida="$install_dir/server-entry.json"
 
-    # Decodificar el archivo .dat utilizando xxd
-    xxd -r "$archivo_entrada" "$archivo_salida"
-
-    echo "Archivo decodificado exitosamente a: $archivo_salida"
-
-    # Mostrar el contenido del archivo decodificado en formato hexadecimal con cat
-    cat -v "$archivo_salida"
-}
 
 # Función para iniciar Psiphon
 function start_psiphon() {
@@ -169,7 +160,7 @@ while true; do
     clear  # Limpia la pantalla
     # Mostrar puertos activos de Psiphon (opción 6)
     echo "================================================================"
-    echo -e "\e[1m\e[31;1m                     By |@LAG13_OFC  66                   \e[0m"
+    echo -e "\e[1m\e[31;1m                     By |@LAG13_OFC  67                  \e[0m"
     echo "================================================================"
     echo "================================================================"
     echo -e "   \e[1m\e[93m       Bienvenido al panel de instalación de Psiphon       \e[0m"
