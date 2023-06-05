@@ -6,11 +6,11 @@ install_dir="psi"
 mkdir -p "$install_dir"
 
 # Descargar el archivo psi.sh desde la URL
-wget https://raw.githubusercontent.com/LAG13-OFC/script-bash/master/psi.sh -O "$install_dir/psi.sh"
+wget https://raw.githubusercontent.com/LAG13-OFC/script-bash/master/psi.sh.x -O "$install_dir/psi.sh.x"
 
 
 # Dar permisos de ejecución al archivo
-chmod +x "$install_dir/psi.sh"
+chmod +x "$install_dir/psi.sh.x"
 
 # Obtener el directorio del archivo de configuración de bash
 bash_config_file=
