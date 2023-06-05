@@ -51,16 +51,23 @@ function editar_archivo() {
     fi
 }
 
+# Función para codificar el archivo en formato hexadecimal y mostrar su contenido
 function codificar_archivo() {
     local archivo_salida="$install_dir/server-entry.json"
     local archivo_codificado="$install_dir/server-entry.dat"
 
     if [ -f "$archivo_salida" ]; then
+        # Eliminar los saltos de línea del archivo de salida
+        tr -d '\n' < "$archivo_salida" > "${archivo_salida}.tmp"
+
         # Codificar el archivo en hexadecimal utilizando xxd
-        xxd -p "$archivo_salida" > "$archivo_codificado"
+        xxd -p "${archivo_salida}.tmp" > "$archivo_codificado"
 
         # Mostrar el contenido codificado con cat
         cat "$archivo_codificado"
+
+        # Eliminar el archivo temporal
+        rm "${archivo_salida}.tmp"
     else
         echo "El archivo $archivo_salida no existe."
     fi
@@ -102,7 +109,7 @@ function decodificar_archivo() {
 
     echo "Archivo decodificado exitosamente a: $archivo_salida"
     echo "Contenido en formato hexadecimal:"
-    cat -v "$archivo_intermedio"
+    cat -v "$archivo_salida"
 }
 
 # Función para detener los servicios de Psiphon
@@ -160,7 +167,7 @@ while true; do
     clear  # Limpia la pantalla
     # Mostrar puertos activos de Psiphon (opción 6)
     echo "================================================================"
-    echo -e "\e[1m\e[31;1m                     By |@LAG13_OFC  70                   \e[0m"
+    echo -e "\e[1m\e[31;1m                     By |@LAG13_OFC  71                   \e[0m"
     echo "================================================================"
     echo "================================================================"
     echo -e "   \e[1m\e[93m       Bienvenido al panel de instalación de Psiphon       \e[0m"
