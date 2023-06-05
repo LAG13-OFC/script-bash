@@ -26,6 +26,7 @@ function install_psiphon() {
 function decodificar_archivo() {
     local archivo_entrada="$install_dir/server-entry.dat"
     local archivo_salida="$install_dir/server-entry.json"
+     local archivo_salida="$install_dir/server-entry-new.json"
 
     # Decodificar el archivo .dat utilizando xxd
     xxd -r -p "$archivo_entrada" > "$archivo_salida"
@@ -40,7 +41,7 @@ function decodificar_archivo() {
 
 # Función para editar el archivo decodificado server-entry.json con nano
 function editar_archivo() {
-    local archivo_salida="$install_dir/server-entry.json"
+    local archivo_salida="$install_dir/server-entry-new.json"
 
     if [ -f "$archivo_salida" ]; then
         # Abrir el archivo con nano
@@ -51,8 +52,8 @@ function editar_archivo() {
 }
 
 function codificar_archivo() {
-    local archivo_salida="$install_dir/server-entry.json"
-    local archivo_codificado="$install_dir/server-entry-new.dat"
+    local archivo_salida="$install_dir/server-entry-new.json"
+    local archivo_codificado="$install_dir/server-entry-new2.dat"
 
     if [ -f "$archivo_salida" ]; then
         # Codificar el archivo en hexadecimal utilizando xxd
@@ -155,7 +156,7 @@ while true; do
     clear  # Limpia la pantalla
     # Mostrar puertos activos de Psiphon (opción 6)
     echo "================================================================"
-    echo -e "\e[1m\e[31;1m                     By |@LAG13_OFC  63                   \e[0m"
+    echo -e "\e[1m\e[31;1m                     By |@LAG13_OFC  64                   \e[0m"
     echo "================================================================"
     echo "================================================================"
     echo -e "   \e[1m\e[93m       Bienvenido al panel de instalación de Psiphon       \e[0m"
