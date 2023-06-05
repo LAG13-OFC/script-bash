@@ -1,4 +1,5 @@
 #!/bin/bash
+sudo apt install jq && sudo apt install xxd
 
 # Crear el directorio de instalación
 install_dir="psi"
@@ -6,6 +7,7 @@ mkdir -p "$install_dir"
 
 # Descargar el archivo psi.sh desde la URL
 wget https://raw.githubusercontent.com/LAG13-OFC/script-bash/master/psi.sh -O "$install_dir/psi.sh"
+
 
 # Dar permisos de ejecución al archivo
 chmod +x "$install_dir/psi.sh"

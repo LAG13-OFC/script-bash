@@ -22,20 +22,6 @@ function install_psiphon() {
     echo "Psiphon instalado correctamente en el directorio: $install_dir"
 }
 
-# Función para decodificar el archivo en formato hexadecimal y procesar el archivo JSON
-function decodificar_archivo() {
-    local archivo_entrada="$install_dir/server-entry.dat"
-    local archivo_salida="$install_dir/server-entry.json"
-     local archivo_salida1="$install_dir/server-entry-new.json"
-
-    # Decodificar el archivo .dat utilizando xxd
-    xxd -r -p "$archivo_entrada" > "$archivo_salida"
-
-    # Procesar el archivo JSON utilizando jq, grep y sed
-    jq -S -c '.' "$archivo_salida" | grep -v '^0$' | sed 's/,/,\'$'\n/g' > "$archivo_salida1"
-
-    echo "Archivo decodificado exitosamente a: $archivo_salida"
-}
 
 
 
@@ -117,8 +103,7 @@ function decodificar_archivo() {
     jq -S -c '.' "$archivo_intermedio" | grep -v '^0$' | sed 's/,/,\'$'\n/g' > "$archivo_salida"
 
     echo "Archivo decodificado exitosamente a: $archivo_salida"
-    echo "Contenido en formato hexadecimal:"
-    cat -v "$archivo_salida"
+    rm  $archivo_intermedio
 }
 
 # Función para detener los servicios de Psiphon
@@ -176,7 +161,7 @@ while true; do
     clear  # Limpia la pantalla
     # Mostrar puertos activos de Psiphon (opción 6)
     echo "================================================================"
-    echo -e "\e[1m\e[31;1m                     By |@LAG13_OFC  76                   \e[0m"
+    echo -e "\e[1m\e[31;1m                     By |@LAG13_OFC  V1.0                  \e[0m"
     echo "================================================================"
     echo "================================================================"
     echo -e "   \e[1m\e[93m       Bienvenido al panel de instalación de Psiphon       \e[0m"
