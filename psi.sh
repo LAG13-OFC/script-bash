@@ -61,10 +61,10 @@ function codificar_archivo() {
         tr -d '\n' < "$archivo_salida" > "${archivo_salida}.tmp"
 
         # Codificar el archivo en hexadecimal utilizando xxd
-        xxd -p "${archivo_salida}.tmp" > "$archivo_codificado"
+        xxd -p -c 999999 "${archivo_salida}.tmp" > "$archivo_codificado"
 
         # Mostrar el contenido codificado con cat
-        cat "${archivo_salida}.tmp"
+        cat "$archivo_codificado"
 
         # Eliminar el archivo temporal
         rm "${archivo_salida}.tmp"
@@ -72,6 +72,7 @@ function codificar_archivo() {
         echo "El archivo $archivo_salida no existe."
     fi
 }
+
 
 # Función para ver los puertos activos de Psiphon
 function view_active_psiphon_ports() {
@@ -167,7 +168,7 @@ while true; do
     clear  # Limpia la pantalla
     # Mostrar puertos activos de Psiphon (opción 6)
     echo "================================================================"
-    echo -e "\e[1m\e[31;1m                     By |@LAG13_OFC  72                   \e[0m"
+    echo -e "\e[1m\e[31;1m                     By |@LAG13_OFC  73                   \e[0m"
     echo "================================================================"
     echo "================================================================"
     echo -e "   \e[1m\e[93m       Bienvenido al panel de instalación de Psiphon       \e[0m"
@@ -181,7 +182,7 @@ while true; do
     echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m4\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mDESINSTALAR Psiphon\e[0m"
     echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m5\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mVer los puertos activos\e[0m"
     echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m6\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mVer la configuración de Psiphon\e[0m"
-    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m7\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mDecodificar archivo .dat\e[0m"
+    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m7\e[0m\e[1m\e[93m]\e[0m\<e[1m\e[31m>\e[0m \e[1m\e[36mDecodificar archivo .dat\e[0m"
     echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m8\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mEditar archivo .json\e[0m"
     echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m9\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mCodificar el archivo .json modificado\e[0m"
     echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m0\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mSalir\e[0m"
