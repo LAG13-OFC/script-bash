@@ -60,18 +60,26 @@ function codificar_archivo() {
         # Eliminar los saltos de línea del archivo de salida
         tr -d '\n' < "$archivo_salida" > "${archivo_salida}.tmp"
 
-        # Codificar el archivo en hexadecimal utilizando xxd
-        xxd -p -c 999999 "${archivo_salida}.tmp" > "$archivo_codificado"
+        # Codificar el archivo sin saltos de línea en hexadecimal utilizando xxd
+        xxd -p -c 999999 "${archivo_salida}.tmp" > "${archivo_codificado}.tmp"
+
+        # Agregar el código al inicio del archivo codificado
+        echo -n "3020302030203020" > "${archivo_codificado}.tmp2"
+        cat "${archivo_codificado}.tmp" >> "${archivo_codificado}.tmp2"
+
+        # Renombrar el archivo codificado final
+        mv "${archivo_codificado}.tmp2" "$archivo_codificado"
 
         # Mostrar el contenido codificado con cat
         cat "$archivo_codificado"
 
-        # Eliminar el archivo temporal
-        rm "${archivo_salida}.tmp"
+        # Eliminar los archivos temporales
+        rm "${archivo_salida}.tmp" "${archivo_codificado}.tmp"
     else
         echo "El archivo $archivo_salida no existe."
     fi
 }
+
 
 
 # Función para ver los puertos activos de Psiphon
@@ -106,7 +114,7 @@ function decodificar_archivo() {
     xxd -r -p "$archivo_entrada" > "$archivo_intermedio"
 
     # Procesar el archivo JSON utilizando jq, grep y sed
-    jq -S -c '.' "$archivo_intermedio" | sed 's/,/,\'$'\n/g' > "$archivo_salida"
+    jq -S -c '.' "$archivo_intermedio" | grep -v '^0$' | sed 's/,/,\'$'\n/g' > "$archivo_salida"
 
     echo "Archivo decodificado exitosamente a: $archivo_salida"
     echo "Contenido en formato hexadecimal:"
@@ -168,7 +176,7 @@ while true; do
     clear  # Limpia la pantalla
     # Mostrar puertos activos de Psiphon (opción 6)
     echo "================================================================"
-    echo -e "\e[1m\e[31;1m                     By |@LAG13_OFC  74                   \e[0m"
+    echo -e "\e[1m\e[31;1m                     By |@LAG13_OFC  76                   \e[0m"
     echo "================================================================"
     echo "================================================================"
     echo -e "   \e[1m\e[93m       Bienvenido al panel de instalación de Psiphon       \e[0m"
@@ -182,7 +190,7 @@ while true; do
     echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m4\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mDESINSTALAR Psiphon\e[0m"
     echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m5\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mVer los puertos activos\e[0m"
     echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m6\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mVer la configuración de Psiphon\e[0m"
-    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m7\e[0m\e[1m\e[93m]\e[0m\<e[1m\e[31m>\e[0m \e[1m\e[36mDecodificar archivo .dat\e[0m"
+    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m7\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mDecodificar archivo .dat\e[0m"
     echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m8\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mEditar archivo .json\e[0m"
     echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m9\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mCodificar el archivo .json modificado\e[0m"
     echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m0\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mSalir\e[0m"
