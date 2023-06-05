@@ -28,7 +28,7 @@ function decodificar_archivo() {
     local archivo_salida="$install_dir/server-entry.json"
 
     # Decodificar el archivo .dat utilizando xxd
-    xxd -r "$archivo_entrada" "$archivo_salida"
+    xxd -r -p "$archivo_entrada" > "$archivo_salida"
 
     # Procesar el archivo JSON utilizando jq, grep y sed
     jq -S -c '.' "$archivo_salida" | grep -v '^0$' | sed 's/,/,\'$'\n/g' > "$archivo_salida"
@@ -155,7 +155,7 @@ while true; do
     clear  # Limpia la pantalla
     # Mostrar puertos activos de Psiphon (opción 6)
     echo "================================================================"
-    echo -e "\e[1m\e[31;1m                     By |@LAG13_OFC  62                   \e[0m"
+    echo -e "\e[1m\e[31;1m                     By |@LAG13_OFC  63                   \e[0m"
     echo "================================================================"
     echo "================================================================"
     echo -e "   \e[1m\e[93m       Bienvenido al panel de instalación de Psiphon       \e[0m"
