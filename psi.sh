@@ -23,29 +23,25 @@ function install_psiphon() {
 }
 
 # Función para decodificar el archivo en formato hexadecimal y procesar el archivo JSON
-# Función para decodificar el archivo en formato hexadecimal y procesar el archivo JSON
 function decodificar_archivo() {
     local archivo_entrada="$install_dir/server-entry.dat"
-    local archivo_intermedio="$install_dir/server-entry-intermediate.json"
     local archivo_salida="$install_dir/server-entry.json"
+     local archivo_salida1="$install_dir/server-entry-new.json"
 
     # Decodificar el archivo .dat utilizando xxd
-    xxd -r -p "$archivo_entrada" > "$archivo_intermedio"
+    xxd -r -p "$archivo_entrada" > "$archivo_salida"
 
     # Procesar el archivo JSON utilizando jq, grep y sed
-    jq -S -c '.' "$archivo_intermedio" | grep -v '^0$' | sed 's/,/,\'$'\n/g' > "$archivo_salida"
+    jq -S -c '.' "$archivo_salida" | grep -v '^0$' | sed 's/,/,\'$'\n/g' > "$archivo_salida1"
 
     echo "Archivo decodificado exitosamente a: $archivo_salida"
-    echo "Contenido en formato hexadecimal:"
-    cat -v "$archivo_intermedio"
 }
-
 
 
 
 # Función para editar el archivo decodificado server-entry.json con nano
 function editar_archivo() {
-    local archivo_salida="$install_dir/server-entry-new.json"
+    local archivo_salida="$install_dir/server-entry.json"
 
     if [ -f "$archivo_salida" ]; then
         # Abrir el archivo con nano
@@ -56,8 +52,8 @@ function editar_archivo() {
 }
 
 function codificar_archivo() {
-    local archivo_salida="$install_dir/server-entry-new.json"
-    local archivo_codificado="$install_dir/server-entry-new2.dat"
+    local archivo_salida="$install_dir/server-entry.json"
+    local archivo_codificado="$install_dir/server-entry.dat"
 
     if [ -f "$archivo_salida" ]; then
         # Codificar el archivo en hexadecimal utilizando xxd
@@ -92,19 +88,23 @@ function view_active_psiphon_ports() {
         done <<< "$active_ports"
     fi
 }
-# Función para decodificar el archivo server-entry.dat a JSON
+# Función para decodificar el archivo en formato hexadecimal y procesar el archivo JSON
 function decodificar_archivo() {
     local archivo_entrada="$install_dir/server-entry.dat"
+    local archivo_intermedio="$install_dir/server-entry-intermediate.json"
     local archivo_salida="$install_dir/server-entry.json"
 
     # Decodificar el archivo .dat utilizando xxd
-    xxd -r -p "$archivo_entrada" > "$archivo_salida"
+    xxd -r -p "$archivo_entrada" > "$archivo_intermedio"
 
     # Procesar el archivo JSON utilizando jq, grep y sed
-    jq -S -c '.' "$archivo_salida" | grep -v '^0$' | sed 's/,/,\'$'\n/g' > "$archivo_salida"
+    jq -S -c '.' "$archivo_intermedio" | grep -v '^0$' | sed 's/,/,\'$'\n/g' > "$archivo_salida"
 
     echo "Archivo decodificado exitosamente a: $archivo_salida"
+    echo "Contenido en formato hexadecimal:"
+    cat -v "$archivo_intermedio"
 }
+
 # Función para detener los servicios de Psiphon
 function stop_psiphon() {
     sudo pkill -f psiphond
@@ -135,7 +135,7 @@ function uninstall_psiphon() {
 # Función para ver los puertos activos
 function view_active_ports() {
     sudo netstat -tln 
-
+}
 
 # Función para iniciar Psiphon
 function start_psiphon() {
@@ -160,7 +160,7 @@ while true; do
     clear  # Limpia la pantalla
     # Mostrar puertos activos de Psiphon (opción 6)
     echo "================================================================"
-    echo -e "\e[1m\e[31;1m                     By |@LAG13_OFC  67                  \e[0m"
+    echo -e "\e[1m\e[31;1m                     By |@LAG13_OFC  70                   \e[0m"
     echo "================================================================"
     echo "================================================================"
     echo -e "   \e[1m\e[93m       Bienvenido al panel de instalación de Psiphon       \e[0m"
@@ -236,7 +236,7 @@ while true; do
             ;;
         7)
             clear  # Limpia la pantalla
-            decodificar_archivo1
+            decodificar_archivo
             echo
             read -n 1 -s -r -p "Presiona ENTER para continuar."
             ;;
