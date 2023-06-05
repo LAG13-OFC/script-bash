@@ -64,7 +64,7 @@ function codificar_archivo() {
         xxd -p "${archivo_salida}.tmp" > "$archivo_codificado"
 
         # Mostrar el contenido codificado con cat
-        cat "$archivo_codificado"
+        cat "${archivo_salida}.tmp"
 
         # Eliminar el archivo temporal
         rm "${archivo_salida}.tmp"
@@ -167,7 +167,7 @@ while true; do
     clear  # Limpia la pantalla
     # Mostrar puertos activos de Psiphon (opción 6)
     echo "================================================================"
-    echo -e "\e[1m\e[31;1m                     By |@LAG13_OFC  71                   \e[0m"
+    echo -e "\e[1m\e[31;1m                     By |@LAG13_OFC  72                   \e[0m"
     echo "================================================================"
     echo "================================================================"
     echo -e "   \e[1m\e[93m       Bienvenido al panel de instalación de Psiphon       \e[0m"
