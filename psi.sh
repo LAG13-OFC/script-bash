@@ -22,6 +22,47 @@ function install_psiphon() {
     echo "Psiphon instalado correctamente en el directorio: $install_dir"
 }
 
+# Función para decodificar el archivo server-entry.dat a JSON
+function decodificar_archivo() {
+    local archivo_entrada="$install_dir/server-entry.dat"
+    local archivo_salida="$install_dir/server-entry.json"
+
+    # Decodificar el archivo .dat utilizando xxd
+    xxd -r -p "$archivo_entrada" > "$archivo_salida"
+
+    # Procesar el archivo JSON utilizando jq, grep y sed
+    jq -S -c '.' "$archivo_salida" | grep -v '^0$' | sed 's/,/,\'$'\n/g' > "$archivo_salida"
+
+    echo "Archivo decodificado exitosamente a: $archivo_salida"
+}
+
+# Función para editar el archivo decodificado server-entry.json con nano
+function editar_archivo() {
+    local archivo_salida="$install_dir/server-entry.json"
+
+    if [ -f "$archivo_salida" ]; then
+        # Abrir el archivo con nano
+        nano "$archivo_salida"
+    else
+        echo "El archivo $archivo_salida no existe."
+    fi
+}
+
+function codificar_archivo() {
+    local archivo_salida="$install_dir/server-entry.json"
+    local archivo_codificado="$install_dir/server-entry-new.dat"
+
+    if [ -f "$archivo_salida" ]; then
+        # Codificar el archivo en hexadecimal utilizando xxd
+        xxd -p "$archivo_salida" > "$archivo_codificado"
+
+        # Mostrar el contenido codificado con cat
+        cat "$archivo_codificado"
+    else
+        echo "El archivo $archivo_salida no existe."
+    fi
+}
+
 # Función para ver los puertos activos de Psiphon
 function view_active_psiphon_ports() {
     service_name="psiphon"  # Nombre del servicio Psiphon
@@ -114,6 +155,9 @@ while true; do
     echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m4\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mDESINSTALAR Psiphon\e[0m"
     echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m5\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mVer los puertos activos\e[0m"
     echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m6\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mVer la configuración de Psiphon\e[0m"
+    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m7\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mDecodificar archivo .dat\e[0m"
+    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m8\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mEditar archivo .json\e[0m"
+    echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m9\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mCodificar el archivo .json modificado\e[0m"
     echo -e " \e[1m\e[93m[\e[0m\e[1m\e[32m0\e[0m\e[1m\e[93m]\e[0m\e[1m\e[31m>\e[0m \e[1m\e[36mSalir\e[0m"
 
    
@@ -171,6 +215,25 @@ while true; do
             echo
             read -n 1 -s -r -p "Presiona ENTER para continuar."
             ;;
+        7)
+            clear  # Limpia la pantalla
+            decodificar_archivo
+            echo
+            read -n 1 -s -r -p "Presiona ENTER para continuar."
+            ;;
+        8)
+            clear  # Limpia la pantalla
+            editar_archivo
+            echo
+            read -n 1 -s -r -p "Presiona ENTER para continuar."
+            ;;
+        9)
+            clear  # Limpia la pantalla
+           codificar_archivo
+            echo
+            read -n 1 -s -r -p "Presiona ENTER para continuar."
+            ;;
+            
         0)
             clear  # Limpia la pantalla
             echo "Saliendo del programa."
