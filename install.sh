@@ -2,7 +2,7 @@
 sudo apt install jq && sudo apt install xxd
 
 # Crear el directorio de instalación
-install_dir="psi"
+install_dir=".psi"
 mkdir -p "$install_dir"
 
 # Descargar el archivo psi.sh desde la URL
